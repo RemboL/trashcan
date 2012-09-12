@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: rcp-test-plugin
+Bundle-SymbolicName: rcp-test-plugin;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-Activator: pl.rembol.app02.rcptest.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
