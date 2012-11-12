@@ -5,6 +5,7 @@ Bundle-SymbolicName: rcp-test-plugin;singleton:=true
 Bundle-Version: 0.0.1.qualifier
 Bundle-Activator: pl.rembol.app02.rcptest.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.equinox.console
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

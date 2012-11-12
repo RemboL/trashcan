@@ -16,8 +16,20 @@
       <perspective
             name="RCP Perspective"
             class="pl.rembol.app02.rcptest.Perspective"
-            id="main.perspective">
+            id="app02-rcp-test.perspective">
       </perspective>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="rcp-test-plugin.application"
+            name="app02-rcp-test">
+         <property
+               name="appName"
+               value="app02-rcp-test">
+         </property>
+      </product>
    </extension>
 
 </plugin>
