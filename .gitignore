@@ -8,3 +8,8 @@
 
 # Compiled projects #
 target/
+
+# eclipse files
+.project
+.classpath
+.settings/
