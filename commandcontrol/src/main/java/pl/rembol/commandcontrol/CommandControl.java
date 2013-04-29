@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import pl.rembol.commandcontrol.basic.GetCommand;
+import pl.rembol.commandcontrol.basic.RunScriptCommand;
 import pl.rembol.commandcontrol.basic.SetCommand;
 import pl.rembol.commandcontrol.parser.CommandElement;
 import pl.rembol.commandcontrol.parser.CommandElement.Type;
@@ -16,125 +17,121 @@ import pl.rembol.commandcontrol.result.ErrorCode;
 
 /**
  * Static class used to parse and execute commands given by a user.
- * 
+ *
  * @author RemboL
- * 
+ *
  */
 public final class CommandControl {
 
-	public static final int REGISTER_OK = 0;
+    public static final int REGISTER_OK = 0;
+    public static final int REGISTER_COMMAND_NAME_REGISTERED = -1;
+    private static final Map<String, Command> commands = new HashMap<String, Command>();
 
-	public static final int REGISTER_COMMAND_NAME_REGISTERED = -1;
+    static {
+        registerCommand("get", new GetCommand());
+        registerCommand("set", new SetCommand());
+        registerCommand("runScript", new RunScriptCommand());
+    }
 
-	private static final Map<String, Command> commands = new HashMap<String, Command>();
+    private CommandControl() {
+    }
 
-	static {
-		registerCommand("get", new GetCommand());
-		registerCommand("set", new SetCommand());
-	}
+    /**
+     * Registers a command within a registry.
+     *
+     * @param commandName name under which the command is registered
+     * @param command command to be registered
+     * @return
+     */
+    public static int registerCommand(String commandName, Command command) {
+        if (commands.keySet().contains(commandName)) {
+            return REGISTER_COMMAND_NAME_REGISTERED;
+        }
 
-	private CommandControl() {
-	}
+        commands.put(commandName, command);
+        return REGISTER_OK;
+    }
 
-	/**
-	 * Registers a command within a registry.
-	 * 
-	 * @param commandName
-	 *            name under which the command is registered
-	 * @param command
-	 *            command to be registered
-	 * @return
-	 */
-	public static int registerCommand(String commandName, Command command) {
-		if (commands.keySet().contains(commandName)) {
-			return REGISTER_COMMAND_NAME_REGISTERED;
-		}
+    /**
+     * Main invocation method of a Control. Takes string as an argument, then
+     * parses the string and performs an execution.
+     *
+     * @param command String containing command execution.
+     * @return
+     * @throws CommandException
+     */
+    public static Serializable invoke(String command) throws CommandException {
 
-		commands.put(commandName, command);
-		return REGISTER_OK;
-	}
+        List<CommandElement> elements = CommandParser.parse(command);
 
-	/**
-	 * Main invocation method of a Control. Takes string as an argument, then
-	 * parses the string and performs an execution.
-	 * 
-	 * @param command
-	 *            String containing command execution.
-	 * @return
-	 * @throws CommandException
-	 */
-	public static Serializable invoke(String command) throws CommandException {
+        if (elements == null || elements.size() == 0) {
+            return null;
+        }
 
-		List<CommandElement> elements = CommandParser.parse(command);
+        if (elements.size() == 1) {
+            CommandElement element = elements.get(0);
 
-		if (elements == null || elements.size() == 0) {
-			return null;
-		}
+            if (element.getType() == Type.INVOCATION) {
+                return invokeCommand(element);
+            }
 
-		if (elements.size() == 1) {
-			CommandElement element = elements.get(0);
+            return element.getNode();
+        }
 
-			if (element.getType() == Type.INVOCATION) {
-				return invokeCommand(element);
-			}
+        return (Serializable) prepareArguments(elements);
 
-			return element.getNode();
-		}
+    }
 
-		return (Serializable) prepareArguments(elements);
+    private static Serializable invokeCommand(CommandElement element)
+            throws CommandException {
 
-	}
+        String commandName = element.getNode().toString();
 
-	private static Serializable invokeCommand(CommandElement element)
-			throws CommandException {
+        if (element.getType() != Type.INVOCATION) {
+            return null;
+        }
 
-		String commandName = element.getNode().toString();
+        if (!commands.containsKey(commandName)) {
+            throw new CommandException(ErrorCode.UNKNOWN_COMMAND, commandName);
+        }
 
-		if (element.getType() != Type.INVOCATION) {
-			return null;
-		}
+        List<Serializable> arguments = prepareArguments(element.getChildren());
 
-		if (!commands.containsKey(commandName)) {
-			throw new CommandException(ErrorCode.UNKNOWN_COMMAND, commandName);
-		}
+        Command command = commands.get(commandName);
 
-		List<Serializable> arguments = prepareArguments(element.getChildren());
+        return command.invoke(arguments.toArray(new Serializable[0]));
+    }
 
-		Command command = commands.get(commandName);
+    private static List<Serializable> prepareArguments(
+            List<CommandElement> elements) throws CommandException {
 
-		return command.invoke(arguments.toArray(new Serializable[0]));
-	}
+        List<Serializable> result = new ArrayList<Serializable>();
 
-	private static List<Serializable> prepareArguments(
-			List<CommandElement> elements) throws CommandException {
+        if (elements == null || elements.size() == 0) {
+            return result;
+        }
 
-		List<Serializable> result = new ArrayList<Serializable>();
+        for (CommandElement element : elements) {
 
-		if (elements == null || elements.size() == 0) {
-			return result;
-		}
-		
-		for (CommandElement element : elements) {
-			
-			switch (element.getType()) {
-			case BRACKETED:
-			case LIST:
-				result.add((Serializable) prepareArguments(element
-						.getChildren()));
-				break;
-			case COMMA:
-			case LEFT_BRACKET:
-			case RIGHT_BRACKET:
-				throw new CommandException(ErrorCode.UNMATCHED_TOKEN_FOUND,
-						element.getType());
-			case INVOCATION:
-				result.add(invokeCommand(element));
-				break;
-			case STRING:
-			case UNDEFINED:
-				result.add(element.getNode());
-			}
-		}
-		return result;
-	}
+            switch (element.getType()) {
+                case BRACKETED:
+                case LIST:
+                    result.add((Serializable) prepareArguments(element
+                            .getChildren()));
+                    break;
+                case COMMA:
+                case LEFT_BRACKET:
+                case RIGHT_BRACKET:
+                    throw new CommandException(ErrorCode.UNMATCHED_TOKEN_FOUND,
+                            element.getType());
+                case INVOCATION:
+                    result.add(invokeCommand(element));
+                    break;
+                case STRING:
+                case UNDEFINED:
+                    result.add(element.getNode());
+            }
+        }
+        return result;
+    }
 }

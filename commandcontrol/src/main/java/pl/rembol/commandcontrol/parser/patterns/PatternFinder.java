@@ -19,11 +19,9 @@ public class PatternFinder {
 	}
 
 	public static void translate(List<CommandElement> elements) {
-		boolean changed = false;
+		boolean changed;
 
 		do {
-			changed = false;
-
 			changed = doTranslate(elements);
 
 		} while (changed);
@@ -32,7 +30,7 @@ public class PatternFinder {
 	private static boolean doTranslate(List<CommandElement> elements) {
 		
 
-		boolean changed = false;
+		boolean changed;
 
 		do {
 			changed = false;
