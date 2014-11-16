@@ -13,3 +13,9 @@ target/
 .project
 .classpath
 .settings/
+
+# video files
+*.avi
+
+# auto-deployed libraries
+*.dll
