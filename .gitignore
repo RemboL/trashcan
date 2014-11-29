@@ -19,3 +19,6 @@ target/
 
 # auto-deployed libraries
 *.dll
+
+# blend backup files
+*.blend1
