@@ -1,13 +1,15 @@
 package pl.rembol.jme3.world.resources.deposits;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Random;
-
+import com.jme3.asset.AssetManager;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.BetterCharacterControl;
+import com.jme3.math.Vector2f;
+import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue.ShadowMode;
+import com.jme3.scene.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-
 import pl.rembol.jme3.world.ModelHelper;
 import pl.rembol.jme3.world.Solid;
 import pl.rembol.jme3.world.UnitRegistry;
@@ -21,13 +23,9 @@ import pl.rembol.jme3.world.selection.SelectionNode;
 import pl.rembol.jme3.world.smallobject.tools.Tool;
 import pl.rembol.jme3.world.terrain.Terrain;
 
-import com.jme3.asset.AssetManager;
-import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.control.BetterCharacterControl;
-import com.jme3.math.Vector2f;
-import com.jme3.math.Vector3f;
-import com.jme3.renderer.queue.RenderQueue.ShadowMode;
-import com.jme3.scene.Node;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Random;
 
 public abstract class ResourceDeposit implements Selectable, Solid,
         ApplicationContextAware {

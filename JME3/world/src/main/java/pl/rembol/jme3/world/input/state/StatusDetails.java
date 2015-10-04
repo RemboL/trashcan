@@ -1,9 +1,9 @@
 package pl.rembol.jme3.world.input.state;
 
+import pl.rembol.jme3.world.smallobject.tools.Tool;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import pl.rembol.jme3.world.smallobject.tools.Tool;
 
 public class StatusDetails {
 

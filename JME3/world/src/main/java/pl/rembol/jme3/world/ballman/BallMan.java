@@ -1,16 +1,17 @@
 package pl.rembol.jme3.world.ballman;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
-
+import com.jme3.animation.AnimChannel;
+import com.jme3.animation.AnimControl;
+import com.jme3.animation.SkeletonControl;
+import com.jme3.asset.AssetManager;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.BetterCharacterControl;
+import com.jme3.math.*;
+import com.jme3.renderer.queue.RenderQueue.ShadowMode;
+import com.jme3.scene.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-
 import pl.rembol.jme3.world.UnitRegistry;
 import pl.rembol.jme3.world.ballman.hunger.HungerControl;
 import pl.rembol.jme3.world.controls.MovingControl;
@@ -31,19 +32,7 @@ import pl.rembol.jme3.world.smallobject.SmallObject;
 import pl.rembol.jme3.world.smallobject.tools.Tool;
 import pl.rembol.jme3.world.terrain.Terrain;
 
-import com.jme3.animation.AnimChannel;
-import com.jme3.animation.AnimControl;
-import com.jme3.animation.SkeletonControl;
-import com.jme3.asset.AssetManager;
-import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.control.BetterCharacterControl;
-import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector2f;
-import com.jme3.math.Vector3f;
-import com.jme3.renderer.queue.RenderQueue.ShadowMode;
-import com.jme3.scene.Node;
+import java.util.*;
 
 public class BallMan implements Selectable, WithOwner, Destructable,
         WithMovingControl, ApplicationContextAware {
@@ -141,13 +130,13 @@ public class BallMan implements Selectable, WithOwner, Destructable,
     }
 
     @Override
-    public boolean isDestroyed() {
-        return hp <= 0;
+    public Node getNode() {
+        return node;
     }
 
     @Override
-    public Node getNode() {
-        return node;
+    public boolean isDestroyed() {
+        return hp <= 0;
     }
 
     @Override

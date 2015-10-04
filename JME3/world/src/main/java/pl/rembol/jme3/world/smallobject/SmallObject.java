@@ -1,13 +1,11 @@
 package pl.rembol.jme3.world.smallobject;
 
-import org.springframework.context.ApplicationContext;
-
-import pl.rembol.jme3.world.controls.TimeToLiveControl;
-
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import org.springframework.context.ApplicationContext;
+import pl.rembol.jme3.world.controls.TimeToLiveControl;
 
 public abstract class SmallObject {
 

@@ -1,14 +1,12 @@
 package pl.rembol.jme3.world.hud;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.jme3.asset.AssetManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import pl.rembol.jme3.world.smallobject.tools.Tool;
 
-import com.jme3.asset.AssetManager;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class InventoryIconCache {

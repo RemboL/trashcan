@@ -1,23 +1,5 @@
 package pl.rembol.jme3.world.rabbit;
 
-import java.util.Arrays;
-import java.util.Random;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-
-import pl.rembol.jme3.world.UnitRegistry;
-import pl.rembol.jme3.world.controls.MovingControl;
-import pl.rembol.jme3.world.input.state.SelectionManager;
-import pl.rembol.jme3.world.input.state.StatusDetails;
-import pl.rembol.jme3.world.interfaces.WithMovingControl;
-import pl.rembol.jme3.world.player.PlayerService;
-import pl.rembol.jme3.world.selection.Selectable;
-import pl.rembol.jme3.world.selection.SelectionIcon;
-import pl.rembol.jme3.world.selection.SelectionNode;
-import pl.rembol.jme3.world.terrain.Terrain;
-
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.asset.AssetManager;
@@ -32,6 +14,22 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import pl.rembol.jme3.world.UnitRegistry;
+import pl.rembol.jme3.world.controls.MovingControl;
+import pl.rembol.jme3.world.input.state.SelectionManager;
+import pl.rembol.jme3.world.input.state.StatusDetails;
+import pl.rembol.jme3.world.interfaces.WithMovingControl;
+import pl.rembol.jme3.world.player.PlayerService;
+import pl.rembol.jme3.world.selection.Selectable;
+import pl.rembol.jme3.world.selection.SelectionIcon;
+import pl.rembol.jme3.world.selection.SelectionNode;
+import pl.rembol.jme3.world.terrain.Terrain;
+
+import java.util.Arrays;
+import java.util.Random;
 
 public class Rabbit extends AbstractControl implements Selectable,
         ApplicationContextAware, WithMovingControl {

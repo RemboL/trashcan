@@ -1,13 +1,12 @@
 package pl.rembol.jme3.world.building.house;
 
-import java.util.Arrays;
-import java.util.List;
-
+import com.jme3.math.Vector2f;
+import com.jme3.scene.control.Control;
 import pl.rembol.jme3.world.building.Building;
 import pl.rembol.jme3.world.save.UnitDTO;
 
-import com.jme3.math.Vector2f;
-import com.jme3.scene.control.Control;
+import java.util.Arrays;
+import java.util.List;
 
 public class House extends Building {
 

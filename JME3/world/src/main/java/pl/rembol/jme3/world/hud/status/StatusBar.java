@@ -1,21 +1,5 @@
 package pl.rembol.jme3.world.hud.status;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import pl.rembol.jme3.world.hud.InventoryIcon;
-import pl.rembol.jme3.world.hud.InventoryIconCache;
-import pl.rembol.jme3.world.input.state.StatusDetails;
-import pl.rembol.jme3.world.selection.Selectable;
-import pl.rembol.jme3.world.selection.SelectionIcon;
-import pl.rembol.jme3.world.smallobject.tools.Tool;
-
 import com.jme3.asset.AssetManager;
 import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
@@ -23,6 +7,19 @@ import com.jme3.math.Vector2f;
 import com.jme3.scene.Node;
 import com.jme3.system.AppSettings;
 import com.jme3.ui.Picture;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import pl.rembol.jme3.world.hud.InventoryIcon;
+import pl.rembol.jme3.world.hud.InventoryIconCache;
+import pl.rembol.jme3.world.input.state.StatusDetails;
+import pl.rembol.jme3.world.selection.Selectable;
+import pl.rembol.jme3.world.selection.SelectionIcon;
+import pl.rembol.jme3.world.smallobject.tools.Tool;
+
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class StatusBar {

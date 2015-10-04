@@ -1,12 +1,8 @@
 package pl.rembol.jme3.world.input.state;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.jme3.math.Vector3f;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import pl.rembol.jme3.world.UnitRegistry;
 import pl.rembol.jme3.world.ballman.BallMan;
 import pl.rembol.jme3.world.building.ConstructionSite;
@@ -18,7 +14,9 @@ import pl.rembol.jme3.world.player.PlayerService;
 import pl.rembol.jme3.world.player.WithOwner;
 import pl.rembol.jme3.world.selection.Selectable;
 
-import com.jme3.math.Vector3f;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class SelectionManager {
