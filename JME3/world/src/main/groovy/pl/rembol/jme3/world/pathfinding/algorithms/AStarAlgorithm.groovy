@@ -65,12 +65,11 @@ public class AStarAlgorithm {
                 clustersVisited.add(path.lastBorder.cluster);
             }
 
-            ComplexPath finishedPath = targetPaths
-                    .findAll({ it.key.middlePoint == path.last })?.collect({
-                new ComplexPath(targetPaths.get(it.value).last, path)
-            })?.find({ it })
+            VectorPath finishedPath = targetPaths
+                    .find({ it.key.middlePoint == path.last })?.value
+
             if (finishedPath) {
-                return finishedPath
+                return new ComplexPath(targetPaths.get(finishedPath).last, path)
             }
 
             List<ComplexPath> newPaths = path.lastBorder.neighbors
@@ -81,9 +80,8 @@ public class AStarAlgorithm {
             List<ComplexPath> finishedPaths = newPaths.collectMany({
                 ComplexPath newPath ->
                     targetPaths.keySet()
-                            .findAll({ it.middlePoint == newPath.last })?.collect({
-                        new ComplexPath(targetPaths.get(it).last, newPath)
-                    })
+                            .findAll({ it.middlePoint == newPath.last })
+                            .collect({ new ComplexPath(targetPaths.get(it).last, newPath) })
             })
             if (finishedPaths) {
                 return finishedPaths.first()
@@ -91,6 +89,7 @@ public class AStarAlgorithm {
 
             paths.addAll(newPaths)
         }
+
         return null;
     }
 
@@ -124,11 +123,11 @@ public class AStarAlgorithm {
             }
 
             List<Vector2iPath> newPaths = path.last.neighbors
-                    .findAll({ canTraverse(isBlockFreeFunction, nodesVisited, it) })?.collect({
-                new Vector2iPath(path, it.key)
-            })?.findAll({ !paths.contains(it) })
+                    .findAll({ canTraverse(isBlockFreeFunction, nodesVisited, it) })
+                    .collect({ new Vector2iPath(path, it.key) })
+                    .findAll({ !paths.contains(it) })
 
-            Vector2iPath finishedPath = newPaths?.findAll({ target.distance(it.last) == 0 })?.find({ it })
+            Vector2iPath finishedPath = newPaths.find({ target.distance(it.last) == 0 })
 
             if (finishedPath) {
                 return Optional.of(new VectorPath(finishedPath, applicationContext))
