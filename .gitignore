@@ -14,11 +14,19 @@ target/
 .classpath
 .settings/
 
+# idea project files
+*.iml
+.idea/
+build/
+
 # video files
 *.avi
 
 # auto-deployed libraries
 *.dll
+
+# gradle files
+.gradle/
 
 # blend backup files
 *.blend1
