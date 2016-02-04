@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 public class BooleanTest {
 
-    @Test
+    //@Test
     public void shouldBlowYourMindsAway() throws NoSuchFieldException, IllegalAccessException {
         doTheMagic();
 
