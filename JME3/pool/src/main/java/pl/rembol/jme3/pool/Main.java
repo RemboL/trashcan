@@ -11,13 +11,9 @@ import com.jme3.light.Light;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.post.FilterPostProcessor;
 import com.jme3.scene.Spatial;
-import com.jme3.shadow.PointLightShadowFilter;
 
 public class Main extends SimpleApplication {
-
-    private static FilterPostProcessor filterPostProcessor;
 
     public static void main(String args[]) {
         Main app = new Main();
@@ -31,14 +27,6 @@ public class Main extends SimpleApplication {
 
     private Ball whiteBall;
 
-    private FilterPostProcessor getFilterPostProcessor() {
-        if (filterPostProcessor == null) {
-            filterPostProcessor = new FilterPostProcessor(assetManager);
-        }
-
-        return filterPostProcessor;
-    }
-
     @Override
     public void simpleInitApp() {
         /** Set up Physics Game */
@@ -46,15 +34,11 @@ public class Main extends SimpleApplication {
         stateManager.attach(bulletAppState);
 
         initTable();
-        initWhiteBall();
-
-        initBalls();
-
-        initFlyCamera(whiteBall.getGeometry());
-
-        initInput();
-
         createLights();
+        initWhiteBall();
+        initFlyCamera(whiteBall.getGeometry());
+        initBalls();
+        initInput();
     }
 
     private void initWhiteBall() {
@@ -119,17 +103,6 @@ public class Main extends SimpleApplication {
         createLight(-15, 10, 5);
         createLight(15, 10, 5);
         createLight(15, 10, -5);
-
-//		createShadow(createLight(0,-1,0));
-    }
-
-    private void createShadow(PointLight light) {
-        final int SHADOWMAP_SIZE = 1024;
-        PointLightShadowFilter filter = new PointLightShadowFilter(assetManager, SHADOWMAP_SIZE);
-        filter.setLight(light);
-        filter.setEnabled(true);
-        getFilterPostProcessor().addFilter(filter);
-        viewPort.addProcessor(getFilterPostProcessor());
     }
 
     private Light createLight(int posX, int posY, int posZ) {
@@ -137,11 +110,11 @@ public class Main extends SimpleApplication {
         light.setPosition(new Vector3f(posX, posY, posZ));
         light.setColor(ColorRGBA.LightGray);
         rootNode.addLight(light);
-        createShadow(light);
         return light;
     }
 
-    public void hitWhiteBall() {
-        whiteBall.setLinearVelocity(cam.getDirection().mult(25));
+    private void hitWhiteBall() {
+        whiteBall.getGeometry().getControl(RigidBodyControl.class)
+                .applyCentralForce(cam.getDirection().setY(0).normalize().mult(1000));
     }
 }

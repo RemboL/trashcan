@@ -57,8 +57,4 @@ public class Ball {
 		
 	}
 
-	public void setLinearVelocity(Vector3f velocity) {
-		ballPhysicsControl.setLinearVelocity(velocity);
-	}
-
 }
