@@ -10,7 +10,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
-import com.jme3.scene.shape.Sphere.TextureMode;
 
 public class Ball {
 
@@ -18,49 +17,48 @@ public class Ball {
 
 	static {
 		/** Initialize the cannon ball geometry */
-		sphere = new Sphere(32, 32, 0.48f, true, false);
-		sphere.setTextureMode(TextureMode.Projected);
-
+		sphere = new Sphere(32, 32, 0.5f, true, false);
 	}
 
-	private Material stone_mat;
-	private RigidBodyControl ball_phy;
-	private Geometry ball_geo;
+	private Material ballMaterial;
+	private RigidBodyControl ballPhysicsControl;
+	private Geometry ballGeometry;
 
 	public Ball(AssetManager assetManager, Node rootNode,
 			BulletAppState bulletAppState, Vector3f startLocation, ColorRGBA color) {
 
 		initMaterial(assetManager, color);
-		ball_geo = new Geometry("cannon ball", sphere);
-		ball_geo.setMaterial(stone_mat);
-		rootNode.attachChild(ball_geo);
+		ballGeometry = new Geometry("cannon ball", sphere);
+		ballGeometry.setMaterial(ballMaterial);
+		rootNode.attachChild(ballGeometry);
+		
 		/** Position the cannon ball */
-		ball_geo.setLocalTranslation(startLocation);
-		ball_phy = new RigidBodyControl(1f);
+		ballGeometry.setLocalTranslation(startLocation);
+		
 		/** Add physical ball to physics space. */
-		ball_geo.addControl(ball_phy);
-		bulletAppState.getPhysicsSpace().add(ball_phy);
-		/** Accelerate the physcial ball to shoot it. */
-		ball_phy.setDamping(0.2f, 0.1f);
-		ball_phy.setRestitution(1f);
+		ballPhysicsControl = new RigidBodyControl(1f);
+		ballGeometry.addControl(ballPhysicsControl);
+		bulletAppState.getPhysicsSpace().add(ballPhysicsControl);
+		ballPhysicsControl.setDamping(0.2f, 0.1f);
+		ballPhysicsControl.setRestitution(1f);
 	}
 	
 	public Spatial getGeometry() {
-		return ball_geo;
+		return ballGeometry;
 	}
 
 	private void initMaterial(AssetManager assetManager, ColorRGBA color) {
-		stone_mat = new Material(assetManager,
+		ballMaterial = new Material(assetManager,
 				"Common/MatDefs/Light/Lighting.j3md");
-		stone_mat.setBoolean("UseMaterialColors", true);
-		stone_mat.setColor("Diffuse", color);
-		stone_mat.setColor("Specular", ColorRGBA.White);
-		stone_mat.setFloat("Shininess", 64f); // [0,128]
+		ballMaterial.setBoolean("UseMaterialColors", true);
+		ballMaterial.setColor("Diffuse", color);
+		ballMaterial.setColor("Specular", ColorRGBA.White);
+		ballMaterial.setFloat("Shininess", 64f); // [0,128]
 		
 	}
 
 	public void setLinearVelocity(Vector3f velocity) {
-		ball_phy.setLinearVelocity(velocity);
+		ballPhysicsControl.setLinearVelocity(velocity);
 	}
 
 }
